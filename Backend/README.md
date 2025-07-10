@@ -1,6 +1,6 @@
 # Backend API Documentation
 
-## `/users/register`Endpoint
+## `/users/register` Endpoint
 
 ### Description
 Registers a new user by creating a user account with the provided information.
