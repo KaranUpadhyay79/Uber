@@ -103,7 +103,7 @@ Logout the current user and blacklist the token provided in cookie or headers.
 
 Requires a valid JWT token in the Authorization header or cookie .
 
-## `/captain/register` Endpoint
+## `/captains/register` Endpoint
 
 ### Description
 
@@ -143,3 +143,4 @@ The request body should be in JSON format and include the following fields:
     - `plate` (string): vehicle number plate
 
 - `token` (String): JWT Token
+
