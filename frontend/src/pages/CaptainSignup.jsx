@@ -145,13 +145,13 @@ const navigate = useNavigate();
       </div>
 
           <button
-            className='bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg'
+            className='bg-[#111] mt-2 text-white font-semibold mb-3 rounded px-4 py-2 w-full text-lg'
             type='submit'
           >
             Create Captain Account
           </button>
 
-          <p className='text-center'>
+          <p className='text-center -mt-2'>
             Already have an account?{' '}
             <Link to='/captain-login' className='text-blue-600'>
               Login here
