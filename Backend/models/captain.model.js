@@ -60,14 +60,18 @@ const captainSchema = new mongoose.Schema({
         },
     },
 
-    location : {
-            lat: {
-                type:Number,
-            },
-            lng:{
-                type:Number,
-            }
-    } 
+    // location : {
+    //         ltd: {
+    //             type:Number,default:0,
+    //         },
+    //         lng:{
+    //             type:Number,default:0,
+    //         }
+    // } 
+    location: {
+      ltd: { type: Number, default: 0 },
+      lng: { type: Number, default: 0 }
+}
 }) 
 
  captainSchema.methods.generateAuthToken = function () {

@@ -10,7 +10,8 @@ const UserLogin = () => {
   const [password, setPassword] = useState('');
   const [useData, setUseData] = useState({});
 
-  const [user, setUser] = useContext(UserDataContext); 
+  //const [user, setUser] = useContext(UserDataContext); 
+  const { user, setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
 

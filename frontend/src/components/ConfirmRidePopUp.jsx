@@ -73,3 +73,5 @@ const ConfirmRidePopUp = (props) => {
 }
 
 export default ConfirmRidePopUp
+
+

@@ -61,6 +61,8 @@ async function getFare(pickup, destination) {
   return fare;
 }
 
+module.exports.getFare = getFare;
+
 function getOtp(num) {
   if (num <= 0) return '';
   const min = Math.pow(10, num - 1);
@@ -95,4 +97,122 @@ module.exports.createRide = async ({ userId, pickup, destination, vehicleType })
 
   return ride;
 };
+
+// module.exports.confirmRide = async ({ rideId, captain }) => {
+//   if (!rideId || !captain) {
+//     throw new Error('Ride ID and captain are required to confirm a ride');
+//   }
+
+//   const updateResult = await rideModel.findOneAndUpdate({
+//     _id: rideId,
+//     status: 'pending'
+//   }, {
+//     status: "accepted",
+//     captain: captain._id
+//   }, { new: true });
+
+//   if (!updateResult) {
+//     throw new Error('Ride not found or already confirmed');
+//   }
+
+//   const ride = await rideModel.findOne({
+//     _id: rideId
+//   }).populate('user').populate('captain');
+
+//   if (!ride) {
+//     throw new Error('Ride not found after update');
+//   }
+
+//   return ride;
+
+// }
+
+module.exports.confirmRide = async ({ rideId, captain }) => {
+  if (!rideId || !captain) {
+    throw new Error('Ride ID and captain are required to confirm a ride');
+  }
+
+  const updatedRide = await rideModel.findOneAndUpdate(
+    { _id: rideId, status: 'pending' },
+    { status: 'accepted', captain: captain._id },
+    { new: true }
+  );
+
+  if (!updatedRide) {
+    throw new Error('Ride not found or already confirmed');
+  }
+
+  const ride = await rideModel
+    .findOne({ _id: rideId })
+    .populate('user')
+    .populate('captain');
+
+  if (!ride) throw new Error('Ride not found after update');
+
+  return ride;
+};
+
+// module.exports.confirmRide = async ({ rideId , captain}) => {
+//   if (!rideId || !captain) {
+//     throw new Error('Ride ID is required to confirm a ride');
+//   }
+
+//   await rideModel.findOneAndUpdate({
+//     _id: rideId, captain
+//   },{
+//     status:"accepted",
+//     captain:captain._id
+//   })
+
+//   const ride = await rideModel.findOne({
+//     _id: rideId,
+//   }).populate('user').populate('captain');
+
+//   if(!ride) {
+//     throw new Error('Ride not found');
+//   }
+
+//   return ride;
+// }
+
+// module.exports.confirmRide = async (req, res) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+
+//   const { rideId } = req.body;
+
+//   try {
+//     // 1. Ride confirm karna (service handle karega status + captain set)
+//     const ride = await rideService.confirmRide({
+//       rideId,
+//       captain: req.captain,
+//     });
+
+//     // 2. Ride ko populate karo taaki user aur captain ka full data mile
+//     const populatedRide = await rideModel
+//       .findById(ride._id)
+//       .populate("user")
+//       .populate("captain");
+
+//     // 3. Agar user ke paas socketId hai to real-time event bhejo
+//     if (populatedRide.user && populatedRide.user.socketId) {
+//       console.log("Sending ride-accepted to:", populatedRide.user.socketId);
+//       sendMessageToSocketId(populatedRide.user.socketId, {
+//         event: "ride-accepted",
+//         data: populatedRide,
+//       });
+//     }else {
+//   console.log("User socketId missing:", populatedRide.user);
+// }
+
+//     // 4. Captain ko bhi response bhejo
+//     return res.status(200).json(populatedRide);
+//   } catch (err) {
+//     console.error("confirmRide error:", err);
+//     return res.status(500).json({ message: err.message });
+//   }
+// };
+
 

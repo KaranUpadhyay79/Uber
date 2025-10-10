@@ -14,8 +14,8 @@ module.exports.getAddressCoordinate = async (address) => {
         // console.log("📦 Mapbox Geocode Response:", response.data);
 
         if (response.data && response.data.features && response.data.features.length > 0) {
-            const [lng, lat] = response.data.features[0].center;
-            return { lat, lng };
+            const [ltd, lng] = response.data.features[0].center;
+            return { ltd, lng };
             
         } else {
             throw new Error('Coordinates not found');
@@ -164,4 +164,13 @@ module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
     return captains;
 };
 
-
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+    const captains = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [[ltd, lng], radius / 6371] // MongoDB uses [lng, lat]
+            }
+        }
+    });
+    return captains;
+}
